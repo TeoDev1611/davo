@@ -3,11 +3,15 @@ package core
 import (
 	"encoding/json"
 	"fmt"
+	"io"
+	"net/http"
+	"os"
 	"strings"
 
 	"github.com/TeoDev1611/davo/utils"
 	"github.com/go-resty/resty/v2"
 	"github.com/manifoldco/promptui"
+	"github.com/schollz/progressbar/v3"
 )
 
 type DavoPkgInfo struct {
@@ -25,6 +29,21 @@ func indexOf(element string, data []interface{}) int {
 		}
 	}
 	return -1
+}
+
+func downloadFiles(url string, filename string) {
+	req, _ := http.NewRequest("GET", url, nil)
+	resp, _ := http.DefaultClient.Do(req)
+	defer resp.Body.Close()
+
+	f, _ := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY, 0644)
+	defer f.Close()
+
+	bar := progressbar.DefaultBytes(
+		resp.ContentLength,
+		"Davo 🥬! Downloading",
+	)
+	io.Copy(io.MultiWriter(f, bar), resp.Body)
 }
 
 func GetGitHubInformation(app string) DavoPkgInfo {
@@ -60,21 +79,27 @@ func GetGitHubInformation(app string) DavoPkgInfo {
 }
 
 func DownloadNow(app string) {
+	// Helper variables!
 	var data []map[string]interface{}
 	var name []interface{}
 	var date []interface{}
 	var count []interface{}
 	var download []interface{}
 
+	// Information from the main function!
 	DavoInfo := GetGitHubInformation(app)
 	println(DavoInfo.URL)
 
+	// Make the client and the request
 	client := resty.New()
 	resp, err := client.R().EnableTrace().Get(DavoInfo.URL)
 	utils.CheckErrors(err)
+
+	// All information to the map[string]interface{}
 	err = json.Unmarshal(resp.Body(), &data)
 	utils.CheckErrors(err)
 
+	// Iterate and make the slices!
 	for _, v := range data {
 		name = append(name, v["name"])
 		date = append(date, v["created_at"])
@@ -90,7 +115,7 @@ func DownloadNow(app string) {
 	_, result, err := prompt.Run()
 	utils.CheckErrors(err)
 
+	// Get the information from the selected option!
 	index := indexOf(result, name)
-
-	fmt.Println(download[index])
+	downloadFiles(fmt.Sprintf("%v", download[index]), result)
 }
