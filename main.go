@@ -34,7 +34,6 @@ func main() {
 				Aliases: []string{"install"},
 				Usage:   "Download the binary from GitHub with Davo🥬!",
 				Action: func(ctx *cli.Context) error {
-					println("Here is a URL! ", ctx.Args().First())
 					core.DownloadNow(ctx.Args().First())
 					return nil
 				},
