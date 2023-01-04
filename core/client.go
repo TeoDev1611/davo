@@ -3,16 +3,11 @@ package core
 import (
 	"encoding/json"
 	"fmt"
-	"io"
-	"net/http"
-	"os"
-	"path"
 	"strings"
 
 	"github.com/TeoDev1611/davo/utils"
 	"github.com/go-resty/resty/v2"
 	"github.com/manifoldco/promptui"
-	"github.com/schollz/progressbar/v3"
 )
 
 type DavoPkgInfo struct {
@@ -21,40 +16,6 @@ type DavoPkgInfo struct {
 	TagName     string
 	URL         string
 	RepoName    string
-}
-
-// Helper Functions
-func indexOf(element string, data []interface{}) int {
-	for k, v := range data {
-		if element == v {
-			return k
-		}
-	}
-	return -1
-}
-
-func TrimSuffix(s, suffix string) string {
-	if strings.HasSuffix(s, suffix) {
-		s = s[:len(s)-len(suffix)]
-	}
-	return s
-}
-
-func downloadFiles(url string, filename string) {
-	req, err := http.NewRequest("GET", url, nil)
-	utils.CheckErrors(err)
-	resp, err := http.DefaultClient.Do(req)
-	utils.CheckErrors(err)
-	defer resp.Body.Close()
-
-	f, _ := os.OpenFile(path.Join(DavoPath(), filename), os.O_CREATE|os.O_WRONLY, 0644)
-	defer f.Close()
-
-	bar := progressbar.DefaultBytes(
-		resp.ContentLength,
-		"Davo 🥬! Downloading",
-	)
-	io.Copy(io.MultiWriter(f, bar), resp.Body)
 }
 
 func GetGitHubInformation(app string) DavoPkgInfo {
@@ -128,7 +89,7 @@ func DownloadNow(app string) {
 	utils.CheckErrors(err)
 
 	// Get the information from the selected option!
-	index := indexOf(result, name)
+	index := IndexOf(result, name)
 
 	utils.Info(fmt.Sprintf("App -> %s", DavoInfo.RepoName))
 	utils.Info(fmt.Sprintf("Release Name: %s", DavoInfo.ReleaseName))
@@ -138,5 +99,5 @@ func DownloadNow(app string) {
 	utils.Info(fmt.Sprintf("Date of Creation: %s", TrimSuffix(strings.ReplaceAll(fmt.Sprintf("%v", date[index]), "T", " "), "Z")))
 	utils.Info(fmt.Sprintf("URL: %s", download[index]))
 
-	downloadFiles(fmt.Sprintf("%v", download[index]), result)
+	DownloadFileWithProgressBar(fmt.Sprintf("%v", download[index]), result)
 }
