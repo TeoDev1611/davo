@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"path"
 	"strings"
 
 	"github.com/TeoDev1611/davo/utils"
@@ -46,7 +47,7 @@ func downloadFiles(url string, filename string) {
 	utils.CheckErrors(err)
 	defer resp.Body.Close()
 
-	f, _ := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY, 0644)
+	f, _ := os.OpenFile(path.Join(DavoPath(), filename), os.O_CREATE|os.O_WRONLY, 0644)
 	defer f.Close()
 
 	bar := progressbar.DefaultBytes(

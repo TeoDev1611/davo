@@ -28,6 +28,10 @@ func main() {
 		},
 		Usage:     "Davo 🥬! A easy way for download binaries to the system",
 		Copyright: "Copyright (c) 2023 Teo. All Rights Reserved.",
+		Action: func(ctx *cli.Context) error {
+			core.DavoSetup()
+			return nil
+		},
 		Commands: []*cli.Command{
 			{
 				Name:    "download",
