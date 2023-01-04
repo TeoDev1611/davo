@@ -3,6 +3,7 @@ module github.com/TeoDev1611/davo
 go 1.19
 
 require (
+	github.com/evilsocket/islazy v1.11.0
 	github.com/go-resty/resty/v2 v2.7.0
 	github.com/i582/cfmt v1.4.0
 	github.com/manifoldco/promptui v0.9.0

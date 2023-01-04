@@ -3,6 +3,7 @@ package core
 import (
 	"encoding/json"
 	"fmt"
+	"path"
 	"strings"
 
 	"github.com/TeoDev1611/davo/utils"
@@ -100,4 +101,5 @@ func DownloadNow(app string) {
 	utils.Info(fmt.Sprintf("URL: %s", download[index]))
 
 	DownloadFileWithProgressBar(fmt.Sprintf("%v", download[index]), result)
+  UnzipFiles(path.Join(DavoPath(), result))
 }

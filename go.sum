@@ -9,6 +9,8 @@ github.com/cpuguy83/go-md2man/v2 v2.0.2/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46t
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/evilsocket/islazy v1.11.0 h1:B5w6uuS6ki6iDG+aH/RFeoMb8ijQh/pGabewqp2UeJ0=
+github.com/evilsocket/islazy v1.11.0/go.mod h1:muYH4x5MB5YRdkxnrOtrXLIBX6LySj1uFIqys94LKdo=
 github.com/go-resty/resty/v2 v2.7.0 h1:me+K9p3uhSmXtrBZ4k9jcEAfJmuC8IivWHwaLZwPrFY=
 github.com/go-resty/resty/v2 v2.7.0/go.mod h1:9PWDzw47qPphMRFfhsyk0NnSgvluHcljSMVIq3w7q0I=
 github.com/gookit/color v1.3.2 h1:WO8+16ZZtx+HlOb6cueziUAF8VtALZKRr/jOvuDk0X0=
